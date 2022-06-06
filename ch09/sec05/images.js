@@ -24,8 +24,6 @@ const loadImage = (url) => {
   });
 };
 
-// Chaining Promises
-
 const imagesList = document.getElementById("images-list");
 const url = "https://picsum.photos/200/300";
 
