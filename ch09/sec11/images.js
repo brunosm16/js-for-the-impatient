@@ -32,28 +32,48 @@ const loadImage = (url) => {
   });
 };
 
+const loadDogImage = async (url, stepName) => {
+  const result = await fetch(url);
+  const imageJSON = await result.json();
+  console.log(stepName);
+  console.log("------");
+  console.log(imageJSON.message);
+  return await loadImage(imageJSON.message);
+};
+
 const URL_RANDOM = "https://dog.ceo/api/breeds/image/random";
 const div = document.getElementById("images-list");
 
 const fn1 = async (url) => {
-  const result = await fetch(url);
-  const imageJSON = await result.json();
-  div.appendChild(document.createTextNode(JSON.stringify(imageJSON)));
+  const image1 = await loadDogImage(url, "img1");
+
+  // image2 starts only when image1 is finished
+  const image2 = await loadDogImage(url, "img2");
+  div.appendChild(image2);
+  div.appendChild(image1);
 };
 
 fn1(URL_RANDOM);
 
-const getRandomImagemURL = async (url) => {
-  const result = await fetch(url);
-  const imageJSON = await result.json();
-  const imageURL = imageJSON.message;
-  return imageURL;
-};
-
 const fn2 = async (url) => {
-  const randomImage = await getRandomImagemURL(url);
-  const imageLoaded = await loadImage(randomImage);
-  div.appendChild(imageLoaded);
+  const [image1, image2] = await Promise.all([
+    loadDogImage(url),
+    loadDogImage(url),
+  ]);
+  div.appendChild(image1);
+  div.appendChild(image2);
 };
 
 fn2(URL_RANDOM);
+
+// sequential not concurrently
+const fn3 = async (url) => {
+  const [image1, image2] = [
+    await loadDogImage(url, "fn3 - image1"),
+    await loadDogImage(url, "fn3 - image2"),
+  ];
+  div.appendChild(image1);
+  div.appendChild(image2);
+};
+
+fn3(URL_RANDOM);
