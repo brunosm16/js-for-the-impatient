@@ -14,7 +14,7 @@ console.log("ToString customization\n");
 }
 console.log("\n----------\n");
 
-console.log("InstaceOf customization\n");
+console.log("InstanceOf customization\n");
 {
   class Iterable {
     // hasInstace customize instaceOf behavior
@@ -28,7 +28,17 @@ console.log("InstaceOf customization\n");
 }
 console.log("\n----------\n");
 
-console.log("\n");
+console.log("Customizing concat\n");
 {
+  const arr1 = [1, 2, 3, 4, 5];
+  arr1[Symbol.isConcatSpreadable] = false;
+  const arr2 = [6, 7, 8, 9, 10];
+  const concatArr = [].concat(arr1, arr2);
+  console.log(concatArr);
 }
 console.log("\n----------\n");
+
+// console.log("\n");
+// {
+// }
+// console.log("\n----------\n");
