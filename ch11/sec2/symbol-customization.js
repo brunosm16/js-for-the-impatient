@@ -85,6 +85,36 @@ console.log("Controlling Type Conversion\n");
 }
 console.log("\n----------\n");
 
+console.log("Yielding a Array of Type Array\n");
+{
+  class ExampleArray extends Array {}
+
+  const myArrayValues = new ExampleArray(1, 2, 3, 4, 5);
+  const resultArray = myArrayValues.map((value) => value * 2);
+
+  // Expecting to be a type of ExampleArray
+  console.log(resultArray);
+
+  class Range extends Array {
+    constructor(start, end) {
+      super();
+
+      for (let i = 0; i < end - start; i++) {
+        this[i] = start + i;
+      }
+    }
+
+    static get [Symbol.species]() {
+      return Array;
+    }
+  }
+
+  const mySampleRange = new Range(1, 5);
+  const rangeArr = mySampleRange.map((value) => value);
+  console.log(rangeArr);
+}
+console.log("\n----------\n");
+
 // console.log("\n");
 // {
 // }
