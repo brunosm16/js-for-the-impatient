@@ -38,6 +38,53 @@ console.log("Customizing concat\n");
 }
 console.log("\n----------\n");
 
+console.log("Implemeting toString on Object \n");
+{
+  class User {
+    constructor(name, lastName) {
+      this.name = name;
+      this.lastName = lastName;
+    }
+
+    get [Symbol.toStringTag]() {
+      return this.name + " " + this.lastName;
+    }
+  }
+
+  const bruno = new User("Bruno", "Silveira");
+  console.log(bruno.toString());
+}
+console.log("\n----------\n");
+
+console.log("Controlling Type Conversion\n");
+{
+  class Percent {
+    constructor(rate) {
+      this.rate = rate;
+    }
+
+    toString() {
+      return `${this.rate}%`;
+    }
+
+    valueOf() {
+      return this.rate * 0.01;
+    }
+
+    [Symbol.toPrimitive](hint) {
+      // Hint will be default since is using "+" operator
+      if (hint === "number") this.valueOf();
+
+      return this.toString();
+    }
+  }
+
+  const percentOne = new Percent(33.3);
+
+  console.log("Result : " + percentOne);
+}
+console.log("\n----------\n");
+
 // console.log("\n");
 // {
 // }
